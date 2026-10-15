@@ -1,0 +1,21 @@
+Training Log — LoveDA Semantic Segmentation
+
+
+Configuration:
+- Dataset: LoveDA subset (Urban + Rural)
+- Urban: 633 train / 420 val
+- Rural: 633 train / 420 val
+- Total: 1266 train / 840 val
+- Crop size: 512x512
+- Batch size: 4
+- Epochs: 50
+- Optimizer: AdamW (lr=1e-4, weight_decay=1e-4)
+- Scheduler: CosineAnnealingLR
+- Backbone: ResNet-50, weights=None, weights_backbone=None
+- Seed: 42
+- Python 3.10.12 | PyTorch 2.1.0 | torchvision 0.16.0
+- GPU: NVIDIA RTX 3090 (24 GB)
+- Checkpoint selection: best validation mIoU
+
+mIoU = mean of per-class IoU over classes with non-zero union.
+Dice = 2 *

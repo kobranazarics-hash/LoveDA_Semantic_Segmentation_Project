@@ -1,0 +1,56 @@
+report.md
+
+# LoveDA Semantic Segmentation — Report
+
+## 1. Goal
+
+A semantic segmentation experiment on an Urban and Rural subset of LoveDA, using DeepLabV3 with a ResNet-50 backbone.
+
+## 2. Data
+
+1266 train / 840 val (633+633 / 420+420).
+
+Training: 512x512 random crops, flips, 90° rotation, light color augmentation.
+Validation: center crop + normalization.
+
+Raw labels: 0 = ignore, 1-7 = classes.
+
+## 3. Model
+
+DeepLabV3 + ResNet-50, trained from scratch.
+
+## 4. Change
+
+Loss: L = 0.5 CE + 0.5 Dice.
+
+## 5. Results
+
+Controlled comparison (center-crop):
+
+Metric               Baseline    Modified
+Overall mIoU         46.8%       47.2%
+Overall Dice         61.6%       62.6%
+Barren IoU           11.2%       17.5%
+Agriculture IoU      60.4%       56.9%
+Forest IoU           44.0%       44.0%
+
+External reference (Wang et al., 2021): mIoU = 47.6%, Barren = 10.4%, Forest = 44.2%.
+
+Wang, J., Zheng, Z., Ma, A., Lu, X., & Zhong, Y. (2021). LoveDA: A Remote Sensing Land-Cover Dataset for Domain Adaptive Semantic Segmentation. NeurIPS 2021 Datasets and Benchmarks Track. arXiv:2110.08733.
+
+These published results are from DeepLabV3+ with ResNet-50 on the LoveDA test set. External context, not a directly comparable baseline.
+
+## 6. Interpretation
+
+The modified loss increased mIoU from 46.8% to 47.2% and improved Barren IoU from 11.2% to 17.5%. However, Agriculture IoU decreased from 60.4% to 56.9%. The effect is class-dependent, not uniform.
+
+## 7. Limits
+
+1. Subset of LoveDA, not the full dataset.
+2. Main table uses center-crop evaluation.
+3. Sliding-window is available but not used for the main table.
+4. Urban/rural domain shift affects generalization.
+
+## 8. Reproducibility
+
+All code in the repo. Same split, seed, crop size, optimizer, epochs for baseline and modified.
